@@ -3,6 +3,8 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	"os"
 	"weight-tracker/pkg/api"
 	"weight-tracker/pkg/app"
