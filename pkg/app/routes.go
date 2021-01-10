@@ -18,7 +18,7 @@ func (s *Server) Routes() *gin.Engine {
 		// prefix the weight routes
 		weight := v1.Group("/weight")
 		{
-			weight.GET("")
+			weight.POST("", s.CreateWeightEntry())
 		}
 	}
 
