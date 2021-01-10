@@ -7,7 +7,7 @@ import (
 	"weight-tracker/pkg/api"
 )
 
-type mockUserRepo struct {}
+type mockUserRepo struct{}
 
 func (m mockUserRepo) CreateUser(request api.NewUserRequest) error {
 	if request.Name == "test user already created" {
@@ -25,11 +25,11 @@ func TestCreateNewUser(t *testing.T) {
 	mockRepo := mockUserRepo{}
 	mockUserService := api.NewUserService(&mockRepo)
 
-	tests := []struct{
-		name string
+	tests := []struct {
+		name    string
 		request api.NewUserRequest
-		want error
-	} {
+		want    error
+	}{
 		{name: "should create a new user successfully", request: api.NewUserRequest{
 			Name:          "test user",
 			Age:           20,
@@ -37,7 +37,7 @@ func TestCreateNewUser(t *testing.T) {
 			Sex:           "female",
 			ActivityLevel: 5,
 			Email:         "test_user@gmail.com",
-		}, want: nil },
+		}, want: nil},
 		{name: "should return an error because of missing email", request: api.NewUserRequest{
 			Name:          "test user",
 			Age:           20,
@@ -45,7 +45,7 @@ func TestCreateNewUser(t *testing.T) {
 			Sex:           "female",
 			ActivityLevel: 5,
 			Email:         "",
-		}, want: errors.New("user service - email required") },
+		}, want: errors.New("user service - email required")},
 		{name: "should return an error because of missing name", request: api.NewUserRequest{
 			Name:          "",
 			Age:           20,
@@ -53,7 +53,7 @@ func TestCreateNewUser(t *testing.T) {
 			Sex:           "female",
 			ActivityLevel: 5,
 			Email:         "test_user@gmail.com",
-		}, want: errors.New("user service - name required") },
+		}, want: errors.New("user service - name required")},
 		{name: "should return error from database because user already exists", request: api.NewUserRequest{
 			Name:          "test user already created",
 			Age:           20,
@@ -61,7 +61,7 @@ func TestCreateNewUser(t *testing.T) {
 			Sex:           "female",
 			ActivityLevel: 5,
 			Email:         "test_user@gmail.com",
-		}, want: errors.New("repository - user already exists in database") },
+		}, want: errors.New("repository - user already exists in database")},
 	}
 
 	for _, test := range tests {
