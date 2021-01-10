@@ -17,6 +17,8 @@ type Storage interface {
 	RunMigrations(connectionString string) error
 	CreateUser(request api.NewUserRequest) error
 	UpdateActivityLevel(res api.UpdateActivityLevelRequest) error
+	CreateWeightEntry(request api.Weight) error
+	GetUser(userID int) (api.User, error)
 }
 
 type storage struct {
@@ -69,7 +71,6 @@ func (s *storage) CreateUser(request api.NewUserRequest) error {
 		return err
 	}
 
-
 	return nil
 }
 
@@ -84,4 +85,39 @@ func (s *storage) UpdateActivityLevel(res api.UpdateActivityLevelRequest) error 
 	}
 
 	return nil
+}
+
+func (s *storage) CreateWeightEntry(request api.Weight) error {
+	newWeightStatement := `
+		INSERT INTO weight (weight, user_id, bmr, daily_caloric_intake) 
+		VALUES ($1, $2, $3, $4)
+		RETURNING id;
+		`
+
+	var ID int
+	err := s.db.QueryRow(newWeightStatement, request.Weight, request.UserID, request.BMR, request.DailyCaloricIntake).Scan(&ID)
+
+	if err != nil {
+		log.Printf("this was the error: %v", err.Error())
+		return err
+	}
+
+	return nil
+}
+
+func (s *storage) GetUser(userID int) (api.User, error) {
+	getUserStatement := `
+		SELECT id, name, age, height, sex, activity_level, email FROM "user" 
+		where id=$1;		
+		`
+
+	var user api.User
+	err := s.db.QueryRow(getUserStatement, userID).Scan(&user.ID, &user.Name, &user.Age, &user.Height, &user.Sex, &user.ActivityLevel, &user.Email)
+
+	if err != nil {
+		log.Printf("this was the error: %v", err.Error())
+		return api.User{}, err
+	}
+
+	return user, nil
 }
