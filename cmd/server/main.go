@@ -34,7 +34,13 @@ func run() error {
 	// create storage dependency
 	storage := repository.NewStorage(db)
 
-	// create router dependecy
+	err = storage.RunMigrations(connectionString)
+
+	if err != nil {
+		return err
+	}
+
+	// create router dependency
 	router := gin.Default()
 	router.Use(cors.Default())
 
