@@ -12,7 +12,7 @@ func (s *Server) Routes() *gin.Engine {
 		// prefix the user routes
 		user := v1.Group("/user")
 		{
-			user.GET("")
+			user.POST("", s.CreateUser())
 		}
 
 		// prefix the weight routes
