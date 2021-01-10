@@ -57,13 +57,13 @@ func (s *storage) RunMigrations(connectionString string) error {
 
 func (s *storage) CreateUser(request api.NewUserRequest) error {
 	newUserStatement := `
-		INSERT INTO "user" (name, age, height, sex, activity_level, email) 
-		VALUES ($1, $2, $3, $4, $5, $6)
+		INSERT INTO "user" (name, age, height, sex, activity_level, email, weight_goal) 
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
 		RETURNING id;
 		`
 
 	var ID int
-	err := s.db.QueryRow(newUserStatement, request.Name, request.Age, request.Height, request.Sex, request.ActivityLevel, request.Email).Scan(&ID)
+	err := s.db.QueryRow(newUserStatement, request.Name, request.Age, request.Height, request.Sex, request.ActivityLevel, request.Email, request.WeightGoal).Scan(&ID)
 
 	log.Printf("this is id: %v", ID)
 	if err != nil {
@@ -107,12 +107,12 @@ func (s *storage) CreateWeightEntry(request api.Weight) error {
 
 func (s *storage) GetUser(userID int) (api.User, error) {
 	getUserStatement := `
-		SELECT id, name, age, height, sex, activity_level, email FROM "user" 
+		SELECT id, name, age, height, sex, activity_level, email, weight_goal FROM "user" 
 		where id=$1;		
 		`
 
 	var user api.User
-	err := s.db.QueryRow(getUserStatement, userID).Scan(&user.ID, &user.Name, &user.Age, &user.Height, &user.Sex, &user.ActivityLevel, &user.Email)
+	err := s.db.QueryRow(getUserStatement, userID).Scan(&user.ID, &user.Name, &user.Age, &user.Height, &user.Sex, &user.ActivityLevel, &user.Email, &user.WeightGoal)
 
 	if err != nil {
 		log.Printf("this was the error: %v", err.Error())

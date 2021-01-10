@@ -6,7 +6,7 @@ import "errors"
 type WeightService interface {
 	New(request NewWeightRequest) error
 	CalculateBMR(height, age, weight int, sex string) (int, error)
-	DailyIntake(BMR, activityLevel int) (int, error)
+	DailyIntake(BMR, activityLevel int, weightGoal string) (int, error)
 }
 
 // WeightRepository is what lets our service do db operations without knowing anything about the implementation
@@ -54,7 +54,7 @@ func (w *weightService) New(request NewWeightRequest) error {
 		return err
 	}
 
-	dailyIntake, err := w.DailyIntake(bmr, user.ActivityLevel)
+	dailyIntake, err := w.DailyIntake(bmr, user.ActivityLevel, user.WeightGoal)
 
 	if err != nil {
 		return err
@@ -91,7 +91,7 @@ func (w *weightService) CalculateBMR(height, age, weight int, sex string) (int, 
 	return (10 * weight) + int(float64(height)*6.25) - (5 * age) - sexModifier, nil
 }
 
-func (w *weightService) DailyIntake(BMR, activityLevel int) (int, error) {
+func (w *weightService) DailyIntake(BMR, activityLevel int, weightGoal string) (int, error) {
 	var maintenanceCalories int
 	switch activityLevel {
 	case 1:
@@ -108,5 +108,17 @@ func (w *weightService) DailyIntake(BMR, activityLevel int) (int, error) {
 		return 0, errors.New("invalid variable activityLevel - needs to be 1, 2, 3, 4 or 5")
 	}
 
-	return maintenanceCalories, nil
+	var dailyCaloricIntake int
+	switch weightGoal {
+	case "gain":
+		dailyCaloricIntake = maintenanceCalories + 500
+	case "loose":
+		dailyCaloricIntake = maintenanceCalories - 500
+	case "maintain":
+		dailyCaloricIntake = maintenanceCalories
+	default:
+		return 0, errors.New("invalid weight goal provided - must be gain, loose or maintain")
+	}
+
+	return dailyCaloricIntake, nil
 }

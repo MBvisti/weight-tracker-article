@@ -11,6 +11,7 @@ type User struct {
 	Height        int       `json:"height"`
 	Sex           string    `json:"sex"`
 	ActivityLevel int       `json:"activity_level"`
+	WeightGoal    string    `json:"weight_goal"`
 	Email         string    `json:"email"`
 }
 
@@ -20,6 +21,7 @@ type NewUserRequest struct {
 	Height        int    `json:"height"`
 	Sex           string `json:"sex"`
 	ActivityLevel int    `json:"activity_level"`
+	WeightGoal    string `json:"weight_goal"`
 	Email         string `json:"email"`
 }
 

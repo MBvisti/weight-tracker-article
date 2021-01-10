@@ -35,6 +35,10 @@ func (u *userService) New(user NewUserRequest) error {
 		return errors.New("user service - name required")
 	}
 
+	if user.WeightGoal == "" {
+		return errors.New("user service - weight goal required")
+	}
+
 	// do some basic normalization
 	user.Name = strings.ToLower(user.Name)
 	user.Email = strings.TrimSpace(user.Email)
