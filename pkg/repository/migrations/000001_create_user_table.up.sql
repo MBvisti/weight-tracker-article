@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS "user"(
     height integer not null,
     sex varchar(255) not null,
     activity_level integer not null,
+    weight_goal varchar not null default 'maintain',
     email varchar unique not null
 );
