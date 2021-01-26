@@ -23,6 +23,7 @@ func (m mockWeightRepo) GetUser(userID int) (api.User, error) {
 		Name:          "Test user",
 		Age:           20,
 		Height:        185,
+		WeightGoal: "maintain",
 		Sex:           "female",
 		ActivityLevel: 5,
 		Email:         "test@mail.com",
@@ -123,39 +124,45 @@ func TestDailyIntake(t *testing.T) {
 		name          string
 		BMR           int
 		ActivityLevel int
+		weightGoal string
 		want          int
 		err           error
 	}{
 		{
-			name:          "should calculate daily intake for activity level 1",
+			name:          "should calculate daily intake for activity level 1 with weight loss as goal",
+			weightGoal: "loose",
 			BMR:           1441,
 			ActivityLevel: 1,
-			want:          1729,
+			want:          1229,
 			err:           nil,
 		},
 		{
-			name:          "should calculate daily intake for activity level 2",
+			name:          "should calculate daily intake for activity level 2 with weight loss as goal",
+			weightGoal: "loose",
 			BMR:           1441,
 			ActivityLevel: 2,
-			want:          1981,
+			want:          1481,
 			err:           nil,
 		},
 		{
-			name:          "should calculate daily intake for activity level 3",
+			name:          "should calculate daily intake for activity level 3 with weight loss as goal",
+			weightGoal: "loose",
 			BMR:           1441,
 			ActivityLevel: 3,
-			want:          2233,
+			want:          1733,
 			err:           nil,
 		},
 		{
-			name:          "should calculate daily intake for activity level 4",
+			name:          "should calculate daily intake for activity level 4 with weight increase as goal",
+			weightGoal: "gain",
 			BMR:           1441,
 			ActivityLevel: 4,
-			want:          2485,
+			want:          2985,
 			err:           nil,
 		},
 		{
-			name:          "should calculate daily intake for activity level 5",
+			name:          "should calculate daily intake for activity level 5 with weight maintenance as goal",
+			weightGoal: "maintain",
 			BMR:           1441,
 			ActivityLevel: 5,
 			want:          2737,
@@ -164,7 +171,7 @@ func TestDailyIntake(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			BMR, err := mockUserService.DailyIntake(test.BMR, test.ActivityLevel)
+			BMR, err := mockUserService.DailyIntake(test.BMR, test.ActivityLevel, test.weightGoal)
 
 			if !reflect.DeepEqual(err, test.err) {
 				t.Errorf("test: %v failed. got: %v, wanted: %v", test.name, err, test.want)

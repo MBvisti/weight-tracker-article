@@ -32,6 +32,7 @@ func TestCreateNewUser(t *testing.T) {
 	}{
 		{name: "should create a new user successfully", request: api.NewUserRequest{
 			Name:          "test user",
+			WeightGoal: "maintain",
 			Age:           20,
 			Height:        180,
 			Sex:           "female",
@@ -41,6 +42,7 @@ func TestCreateNewUser(t *testing.T) {
 		{name: "should return an error because of missing email", request: api.NewUserRequest{
 			Name:          "test user",
 			Age:           20,
+			WeightGoal: "maintain",
 			Height:        180,
 			Sex:           "female",
 			ActivityLevel: 5,
@@ -49,6 +51,7 @@ func TestCreateNewUser(t *testing.T) {
 		{name: "should return an error because of missing name", request: api.NewUserRequest{
 			Name:          "",
 			Age:           20,
+			WeightGoal: "maintain",
 			Height:        180,
 			Sex:           "female",
 			ActivityLevel: 5,
@@ -58,6 +61,7 @@ func TestCreateNewUser(t *testing.T) {
 			Name:          "test user already created",
 			Age:           20,
 			Height:        180,
+			WeightGoal: "maintain",
 			Sex:           "female",
 			ActivityLevel: 5,
 			Email:         "test_user@gmail.com",

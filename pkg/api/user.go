@@ -27,6 +27,7 @@ func NewUserService(userRepo UserRepository) UserService {
 
 // TODO: note that we are not checking if the user already exists - we probably should not the article will be too long
 func (u *userService) New(user NewUserRequest) error {
+	// do some basic validations
 	if user.Email == "" {
 		return errors.New("user service - email required")
 	}
@@ -39,7 +40,7 @@ func (u *userService) New(user NewUserRequest) error {
 		return errors.New("user service - weight goal required")
 	}
 
-	// do some basic normalization
+	// do some basic normalisation
 	user.Name = strings.ToLower(user.Name)
 	user.Email = strings.TrimSpace(user.Email)
 

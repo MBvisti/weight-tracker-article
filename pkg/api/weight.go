@@ -2,7 +2,7 @@ package api
 
 import "errors"
 
-// WeightService contains the methods of the user service
+// WeightService contains the methods of the weight service
 type WeightService interface {
 	New(request NewWeightRequest) error
 	CalculateBMR(height, age, weight int, sex string) (int, error)

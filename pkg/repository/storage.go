@@ -58,14 +58,11 @@ func (s *storage) RunMigrations(connectionString string) error {
 func (s *storage) CreateUser(request api.NewUserRequest) error {
 	newUserStatement := `
 		INSERT INTO "user" (name, age, height, sex, activity_level, email, weight_goal) 
-		VALUES ($1, $2, $3, $4, $5, $6, $7)
-		RETURNING id;
+		VALUES ($1, $2, $3, $4, $5, $6, $7);
 		`
 
-	var ID int
-	err := s.db.QueryRow(newUserStatement, request.Name, request.Age, request.Height, request.Sex, request.ActivityLevel, request.Email, request.WeightGoal).Scan(&ID)
+	err := s.db.QueryRow(newUserStatement, request.Name, request.Age, request.Height, request.Sex, request.ActivityLevel, request.Email, request.WeightGoal).Err()
 
-	log.Printf("this is id: %v", ID)
 	if err != nil {
 		log.Printf("this was the error: %v", err.Error())
 		return err
