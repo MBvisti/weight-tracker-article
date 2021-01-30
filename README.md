@@ -12,3 +12,7 @@ Clone the repository and change the connectionString variable on line 26 in main
 "postgres://postgres:postgres@localhost/**NAME-OF-YOUR-DATABASE-HERE**?sslmode=disable"
 
 After that, just run go run cmd/server/main.go from your terminal
+
+---
+## License
+MIT
