@@ -13,6 +13,5 @@ Clone the repository and change the connectionString variable on line 26 in main
 
 After that, just run go run cmd/server/main.go from your terminal
 
----
 ## License
 MIT
