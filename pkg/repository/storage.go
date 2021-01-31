@@ -16,7 +16,6 @@ import (
 type Storage interface {
 	RunMigrations(connectionString string) error
 	CreateUser(request api.NewUserRequest) error
-	UpdateActivityLevel(res api.UpdateActivityLevelRequest) error
 	CreateWeightEntry(request api.Weight) error
 	GetUser(userID int) (api.User, error)
 }
@@ -65,19 +64,6 @@ func (s *storage) CreateUser(request api.NewUserRequest) error {
 
 	if err != nil {
 		log.Printf("this was the error: %v", err.Error())
-		return err
-	}
-
-	return nil
-}
-
-// TODO: to be implemented
-func (s *storage) UpdateActivityLevel(res api.UpdateActivityLevelRequest) error {
-	updateActivityLevelStatement := `INSERT INTO users`
-
-	err := s.db.QueryRow(updateActivityLevelStatement, res.Email).Err()
-
-	if err != nil {
 		return err
 	}
 

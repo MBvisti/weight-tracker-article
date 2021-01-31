@@ -8,7 +8,6 @@ import (
 // UserService contains the methods of the user service
 type UserService interface {
 	New(user NewUserRequest) error
-	UpdateActivityLevel(res UpdateActivityLevelRequest) error
 }
 
 // User repository is what lets our service do db operations without knowing anything about the implementation
@@ -45,21 +44,6 @@ func (u *userService) New(user NewUserRequest) error {
 	user.Email = strings.TrimSpace(user.Email)
 
 	err := u.storage.CreateUser(user)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// TODO: activity level is loosely defined here - should be a database set value
-func (u *userService) UpdateActivityLevel(res UpdateActivityLevelRequest) error {
-	if res.Email == "" {
-		return errors.New("user service - no email provided")
-	}
-
-	err := u.storage.UpdateActivityLevel(res)
 
 	if err != nil {
 		return err
