@@ -1,5 +1,5 @@
 # How to structure Golang applications
-This is the repository for my article on how to structure Golang applications. It can be found [here]().
+This is the repository for my article on how to structure Golang applications. It can be found [here](https://levelup.gitconnected.com/a-practical-approach-to-structuring-go-applications-7f77d7f9c189).
 
 The purpose is to show newcomers to Go how structure their applications.
 
