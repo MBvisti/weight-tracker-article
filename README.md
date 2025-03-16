@@ -7,6 +7,8 @@ This is the repository for my article on how to structure Golang applications. I
 
 The purpose is to show newcomers to Go how structure their applications.
 
+If you want a comprehensive course on building fullstack web apps with go, check [Golang Blog Course](https://golangblogcourse.com?utm_source=github&utm_campaign=structure-golang-applications).
+
 ## How to run the application
 You don't need much the run this application. It has the following installed on your computer:
 - Golang 1.15+
